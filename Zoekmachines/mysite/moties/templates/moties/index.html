@@ -202,6 +202,11 @@ td {
   padding-right: 50px;
 }
 
+p.blauw {
+  padding-bottom: 0px;
+  color: #02b8dd;
+}
+
 </style>
 </head>
 
@@ -220,7 +225,7 @@ td {
 
   <div id="primary-content">
 		<div class="wrapper">
-      <h5> Welkom op onze website! </h5>
+      <h5> Welkom op onze website, a je to! </h5>
       <table>
         <tr>
           <td><b> Groepsnaam: </b></td> <td> Buurman & Buurman </td>
@@ -231,11 +236,11 @@ td {
         </tr>
 
         <tr>
-          <td><b> Link presentatie: </b></td> <td> Link..... </td>
+          <td><b> Link presentatie: </b></td> <td> <a href="https://docs.google.com/presentation/d/1x4Los9snGtHW_Ez77QC95Vlhnsfy-i8Px9dfK4Xt04c/edit?usp=sharing"> Klik hier </a> </td>
         </tr>
 
         <tr>
-          <td><b> Toelichting: </b></td> <td> Onderstaand worden de verschillende onderdelen van de opdracht behandeld. </td>
+          <td><b> Toelichting: </b></td> <td> Onderstaand worden de zes verschillende onderdelen van de opdracht behandeld. </td>
         </tr>
 
         <tr>
@@ -297,28 +302,130 @@ td {
 	</div>
 
   <div id="features">
-    <div class="wrapper">
-      <h5> Zoekmachine met filters </h5>
+		<div class="wrapper">
+      <h5> Zoekmachine met filters</h5>
       <form type="get" action="{% url 'faceted_search' %}" method="POST" style="margin: 0">
           {% csrf_token %}
-          <input  id="search_box" type="text" name="faceted_search_box"  placeholder="Zoekterm..." value='{{ query }}' required >
+          <input  id="search_box" type="text" name="faceted_search_box"  placeholder="Zoekterm.." value='{{ query }}' >
+          <input  id="search_box" type="text" name="partij1_search_box"  placeholder="Partij.." value='{{ query }}' >
+          <input  id="search_box" type="text" name="jaar1_search_box"  placeholder="Jaar.." value='{{ query }}' >
+          <input  id="search_box" type="text" name="ministerie1_search_box"  placeholder="Ministerie.." value='{{ query }}' >
           <button id="search_submit" class='button1' type="submit" >Zoek</button>
       </form>
-
-    </div>
-  </div>
-
-  <div id="primary-content">
-		<div class="wrapper">
-      <h5> Evaluatie van de resultaten </h5>
 
 		</div>
 	</div>
 
+  <div id="primary-content">
+		<div class="wrapper">
+      <h5> Evaluatie </h5>
+      <table>
+        <tr>
+          <td><b> Query 1: </b></td> <td> "Problemen A2" </td>
+        </tr>
+        <tr>
+          <td>  Beschrijving: </td> <td><i> Documenten omtrent problemen met betrekking tot de A2.</i></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 1: </td> <td> R, N, R, R, R, R, R, R, R, R </td>  <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.90 </p></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 2: </td> <td> R, N, R, R, R, R, R, R, N, R </td>  <td> <p class="blauw"> Precisie @10: </p></td> <td><p class="blauw"> 0.80 </p></td>
+        </tr>
+        <tr>
+          <td><p class="blauw">  Kappa: </p></td> <td><p class="blauw"> 0,62 </p></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b> Query 2: </b></td> <td> "Kwaliteit ziekenhuis" </td>
+        </tr>
+        <tr>
+          <td>  Beschrijving: </td> <td><i> Documenten omtrent kwaliteit van ziekenhuizen, zoals personeel en materieel.</i></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 1: </td> <td> N, R, R, R, N, R, R, N, R, N </td>  <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.60 </p></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 2: </td> <td> N, R, R, R, N, R, R, N, N, N </td>  <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.50 </p></td>
+        </tr>
+        <tr>
+          <td><p class="blauw">  Kappa: </p></td> <td><p class="blauw"> 0,80 </p></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b> Query 3: </b></td> <td> "Zorg ouderen" </td>
+        </tr>
+        <tr>
+          <td>  Beschrijving: </td> <td><i> Documenten die informatie bevatten omtrent de zorg voor ouderen.</i></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 1: </td> <td> N, R, R, R, N, R, R, R, R, R </td>  <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.80 </p></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 2: </td> <td> N, R, R, R, N, R, N, N, R, R </td>  <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.60 </p></td>
+        </tr>
+        <tr>
+          <td><p class="blauw">  Kappa: </p></td> <td><p class="blauw"> 0,55 </p></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b> Query 4: </b></td> <td> "Kritiek tweede kamer" </td>
+        </tr>
+        <tr>
+          <td>  Beschrijving: </td> <td><i> Documenten omtrent het functioneren van de tweede kamer.</i></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 1: </td> <td> N, N, R, R, N, R, N, N, N, R </td> <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.40 </p></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 2: </td> <td> R, N, R, N, R, R, R, R, N, R </td> <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.70 </p></td>
+        </tr>
+        <tr>
+          <td><p class="blauw">  Kappa: </p></td> <td><p class="blauw"> 0,07 </p></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td><b> Query 5: </b></td> <td> "Overgang gulden euro" </td>
+        </tr>
+        <tr>
+          <td>  Beschrijving: </td> <td><i> Documenten omtrent de overgang van de gulden naar de euro.</i></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 1: </td> <td> R, R, N, R, R, R, R, R, R, N </td> <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.80 </p></td>
+        </tr>
+        <tr>
+          <td>  Beoordelaar 2: </td> <td> R, R, N, R, R, R, R, R, R, N </td> <td><p class="blauw">  Precisie @10: </p></td> <td><p class="blauw"> 0.80 </p></td>
+        </tr>
+        <tr>
+          <td><p class="blauw">  Kappa: </p></td> <td><p class="blauw"> 1,00 </p></td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td> </td> <td></td> <td><p class="blauw">  Avg precisie: </p></td> <td><p class="blauw"> 0,69 </p></td>
+        </tr>
+
+
+
+      </table>
+		</div>
+	</div>
+
+  <div id="features">
 	<div class="wrapper">
 		<div id="footer-info">
 			<p>&copy; 2017 R. Dekker & J. Duiveman. Alle rechten voorbehouden.</p>
 		</div>
+  </div>
   </div>
 
 

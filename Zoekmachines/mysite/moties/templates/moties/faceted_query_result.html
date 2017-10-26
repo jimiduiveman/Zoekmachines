@@ -219,7 +219,7 @@ em {
 
   <header>
     <div class="wrapper">
-      <h1>BB<span class="color">.</span></h1>
+      <h1>B&B<span class="color">.</span></h1>
       <nav>
         <ul>
           <li><a href="/moties">HomePage</a></li>
@@ -230,17 +230,16 @@ em {
 
   <div id="primary-content">
 		<div class="wrapper">
-      <h5> Resultaten voor de zoekterm "{{ query }}":</h5>
+      <h5> Resultaten voor "{{ faceted_search_query}} {{partij1_search_query}} {{jaar1_search_query }} {{ministerie1_search_query }}":</h5>
       {% if result_list %}
           <ul>
-          {% for motie in result_list %}
-              <li><a href="/moties/{{ motie }}/">{{ motie }}</a></li>
+          {% for dict in result_list %}
+              <li><a href="/moties/{{ dict.id }}/">{{ dict.id }}</a> <br> {{dict.titel | safe}} </li>
           {% endfor %}
           </ul>
       {% else %}
           <p>Geen moties beschikbaar.</p>
       {% endif %}
-			<h3></h3>
 		</div>
 	</div>
 

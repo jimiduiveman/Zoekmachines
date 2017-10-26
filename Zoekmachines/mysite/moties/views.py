@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-from wordcloud import WordCloud
+#from wordcloud import WordCloud
 
 import json
 
@@ -26,7 +26,7 @@ def search(request):
     # Do whatever you need with the word the user looked for
     q = {
         "query" : {
-            "match_phrase" : {
+            "match" : {
                 "vraag" : search_query
             }
         },
@@ -63,9 +63,9 @@ def adv_search(request):
       "query": {
         "bool": {
           "should": [
-            { "match_phrase": { "vraag":  adv_search_query }},
-            { "match_phrase": { "jaar": jaar_search_query   }},
-            { "match_phrase": { "partij": partij_search_query   }}
+            { "match": { "vraag":  adv_search_query }},
+            { "match": { "jaar": jaar_search_query   }},
+            { "match": { "partij": partij_search_query   }}
           ]
         }
       },
@@ -96,10 +96,10 @@ def adv_search(request):
 def wordcloud(request):
 
     def gen_tags(words): # words is a dict with string:integer pairs
-        return ' '.join([('<font size="%d">%s</font>'%(min(1+p*10/max(words.values()), 5), x)) for (x, p) in words.items()])
+        return ' '.join([('<font size="%d">%s</font>'%(min(1+p*14/max(words.values()), 5), x)) for (x, p) in words.items()])
 
     def make_cloud(woorden):
-        woorden = { k:woorden[k] for k in woorden if k != search_query }
+        woorden = { k:woorden[k] for k in woorden if k not in search_query }
         cloud='<center>'+gen_tags(woorden)+'</center>'
         return cloud
 
@@ -167,18 +167,43 @@ def timeline(request):
 
 
 def faceted_search(request):
-    search_query = request.POST['faceted_search_box']
+    faceted_search_query = request.POST['faceted_search_box']
+    partij1_search_query = request.POST['partij1_search_box']
+    jaar1_search_query = request.POST['jaar1_search_box']
+    ministerie1_search_query = request.POST['ministerie1_search_box']
     # Do whatever you need with the word the user looked for
-    q= {
-        "query": {
-            "match": {
-                "vraag": search_query
-                    }
-                }
+    q = {
+      "query": {
+        "bool": {
+          "should": [
+            { "match": { "vraag":  faceted_search_query }},
+            { "match": { "jaar": jaar1_search_query   }},
+            { "match": { "partij": partij1_search_query   }},
+            { "match": { "ministerie": ministerie1_search_query   }}
+          ]
         }
+      },
+      "highlight": {
+          "fields" : {
+              "titel" : {}
+          }
+      }
+    }
     res = es.search(index="moties", body=q)
-    result_list = [ res['hits']['hits'][x]['_id'] for x in range(len(res['hits']['hits'])) ]
-    context = { "result_list" : result_list, "query": search_query }
+    result_list = []
+    for x in range(len(res['hits']['hits'])):
+        if 'highlight' in res['hits']['hits'][x]:
+            result_list.append( { "id":res['hits']['hits'][x]['_id'],
+                              "score": res['hits']['hits'][x]['_score'],
+                              "titel": res['hits']['hits'][x]['highlight']['titel'][0]
+                            } )
+        else:
+            result_list.append( { "id":res['hits']['hits'][x]['_id'],
+                              "score": res['hits']['hits'][x]['_score'],
+                              "titel": res['hits']['hits'][x]['_source']['titel']
+                            } )
+
+    context = { "result_list" : result_list, "faceted_search_query": faceted_search_query, "jaar1_search_query": jaar1_search_query, "partij1_search_query":partij1_search_query, "ministerie1_search_query":ministerie1_search_query }
 
     return render(request, 'moties/faceted_query_result.html', context)
 
